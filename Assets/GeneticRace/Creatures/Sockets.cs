@@ -6,15 +6,17 @@ public enum SocketLocation
     Top, Bottom, Left, Right, Front, Back
 }
 
-class Socket
+public class Socket
 {
     public SocketLocation location;
     public Transform socketTransform;
+    public SocketMovement socketMovement;
     public bool used;
 }
 
 public class Sockets : MonoBehaviour
 {
+    public GameObject testPartPrefab;
     public GameObject socketPrefab;
     Socket[] sockets = new Socket[6];
 
@@ -32,6 +34,9 @@ public class Sockets : MonoBehaviour
         CreateSocket(SocketLocation.Right);
         CreateSocket(SocketLocation.Front);
         CreateSocket(SocketLocation.Back);
+
+        if(testPartPrefab != null)
+        SetSocketObject(SocketLocation.Top, Instantiate(testPartPrefab));
     }
 
     // Update is called once per frame
@@ -53,43 +58,12 @@ public class Sockets : MonoBehaviour
             }
         }
 
-        bodyPart.transform.parent = socket.socketTransform;
+        bodyPart.transform.parent = socket.socketMovement.transform;
         Vector3 localPosition = new Vector3();
-        switch (location)
-        {
-            case SocketLocation.Top:
-                {
-                    localPosition.y = bodyPart.transform.localScale.y * 0.5f;
-                    break;
-                }
-            case SocketLocation.Bottom:
-                {
-                    localPosition.y = bodyPart.transform.localScale.y * -0.5f;
-                    break;
-                }
-            case SocketLocation.Left:
-                {
-                    localPosition.x = bodyPart.transform.localScale.x * -0.5f;
-                    break;
-                }
-            case SocketLocation.Right:
-                {
-                    localPosition.x = bodyPart.transform.localScale.x * 0.5f;
-                    break;
-                }
-            case SocketLocation.Front:
-                {
-                    localPosition.z = bodyPart.transform.localScale.z * 0.5f;
-                    break;
-                }
-            case SocketLocation.Back:
-                {
-                    localPosition.z = bodyPart.transform.localScale.z * -0.5f;
-                    break;
-                }
-        }
+        localPosition.z = bodyPart.transform.localScale.z * 0.5f;
 
         bodyPart.transform.localPosition = localPosition;
+        bodyPart.transform.localRotation = Quaternion.identity;
     }
 
     void CreateSocket(SocketLocation location)
@@ -115,6 +89,10 @@ public class Sockets : MonoBehaviour
         GameObject socketGameObject = Instantiate(socketPrefab);
         socket.socketTransform = socketGameObject.transform;
         socketGameObject.transform.parent = transform;
+        SocketMovement socketMovement = socketGameObject.GetComponentInChildren<SocketMovement>();
+        socket.socketMovement = socketMovement;
+        if(socketMovement != null)
+            socketMovement.socket = socket;
 
         Vector3 currentScale = transform.lossyScale;
         Vector3 localScale = new Vector3(1 / currentScale.x, 1 / currentScale.y, 1 / currentScale.z);
@@ -128,36 +106,48 @@ public class Sockets : MonoBehaviour
                 {
                     localPosition.y = 0.5f;
                     socketGameObject.name = "TopSocket";
+                    Quaternion rotation = Quaternion.LookRotation(transform.up, -transform.forward);
+                    socket.socketTransform.rotation = rotation;
                     break;
                 }
             case SocketLocation.Bottom:
                 {
                     localPosition.y = -0.5f;
                     socketGameObject.name = "BottomSocket";
+                    Quaternion rotation = Quaternion.LookRotation(-transform.up, transform.forward);
+                    socket.socketTransform.rotation = rotation;
                     break;
                 }
             case SocketLocation.Left:
                 {
                     localPosition.x = -0.5f;
                     socketGameObject.name = "LeftSocket";
+                    Quaternion rotation = Quaternion.LookRotation(-transform.right, transform.up);
+                    socket.socketTransform.rotation = rotation;
                     break;
                 }
             case SocketLocation.Right:
                 {
                     localPosition.x = 0.5f;
                     socketGameObject.name = "RightSocket";
+                    Quaternion rotation = Quaternion.LookRotation(transform.right, transform.up);
+                    socket.socketTransform.rotation = rotation;
                     break;
                 }
             case SocketLocation.Front:
                 {
                     localPosition.z = 0.5f;
                     socketGameObject.name = "FrontSocket";
+                    Quaternion rotation = Quaternion.LookRotation(transform.forward, transform.up);
+                    socket.socketTransform.rotation = rotation;
                     break;
                 }
             case SocketLocation.Back:
                 {
                     localPosition.z = -0.5f;
                     socketGameObject.name = "BackSocket";
+                    Quaternion rotation = Quaternion.LookRotation(-transform.forward, transform.up);
+                    socket.socketTransform.rotation = rotation;
                     break;
                 }
         }
