@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum SocketLocation
 {
@@ -16,12 +17,11 @@ public class Socket
 
 public class Sockets : MonoBehaviour
 {
-    public GameObject testPartPrefab;
     public GameObject socketPrefab;
     Socket[] sockets = new Socket[6];
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
         for(int i = 0; i < 6; i++)
         {
@@ -34,15 +34,32 @@ public class Sockets : MonoBehaviour
         CreateSocket(SocketLocation.Right);
         CreateSocket(SocketLocation.Front);
         CreateSocket(SocketLocation.Back);
-
-        if(testPartPrefab != null)
-        SetSocketObject(SocketLocation.Top, Instantiate(testPartPrefab));
     }
 
     // Update is called once per frame
     void Update () {
 	
 	}
+
+    public List<Socket> GetUnusedSocketsInChildren()
+    {
+        List<Socket> unusedSockets = new List<Socket>();
+
+        foreach(Socket socket in sockets)
+        {
+            if (socket == null)
+                continue;
+            if(socket.used == false)
+            {
+                unusedSockets.Add(socket);
+                continue;
+            }
+            Sockets socketsComp = socket.socketTransform.GetComponentInChildren<Sockets>();
+            if(socketsComp != null)
+                unusedSockets.AddRange(socketsComp.GetUnusedSocketsInChildren());
+        }
+        return unusedSockets;
+    }
 
     public void SetSocketObject(SocketLocation location, GameObject bodyPart)
     {

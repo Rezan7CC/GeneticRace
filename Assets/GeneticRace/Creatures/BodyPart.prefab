@@ -129,7 +129,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5a4137f18c2d14688addcb3c4be099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPartPrefab: {fileID: 0}
   socketPrefab: {fileID: 191400, guid: 511f56562c838d740a23890a06fa8ccc, type: 2}
 --- !u!114 &11424088
 MonoBehaviour:
@@ -143,7 +142,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSize: 1
-  maxSize: 6
+  maxSize: 4
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

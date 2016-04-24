@@ -20,6 +20,8 @@ public class SocketMovement : MonoBehaviour
     public float maxRotationSpeed = 100;
 
     MovementOrientation movementOrientation;
+    MovementState startMovementState;
+    float startAngle;
     MovementState movementState;
     float currentAngle;
     float angleRange;
@@ -27,7 +29,7 @@ public class SocketMovement : MonoBehaviour
     bool allowMovement = true;
 
 	// Use this for initialization
-	void Start ()
+	void Awake ()
     {
         GenerateMovement();
 	}
@@ -55,13 +57,21 @@ public class SocketMovement : MonoBehaviour
         int randMovementState = Random.Range(0, 1);
 
         movementOrientation = randMovementOrientation == 1 ? MovementOrientation.Horizontal : MovementOrientation.Vertical;
-        movementState = randMovementState == 1 ? MovementState.Negative : MovementState.Positive;
+        startMovementState = randMovementState == 1 ? MovementState.Negative : MovementState.Positive;
+        movementState = startMovementState;
 
         angleRange = Random.Range(minAngleRange, maxAngleRange);
         float randAngle = Random.Range(angleRange * -0.5f, angleRange * 0.5f);
+        startAngle = randAngle;
         SetMovementAngle(randAngle);
 
         rotationSpeed = Random.Range(minRotationSpeed, maxRotationSpeed);
+    }
+
+    public void ResetMovement()
+    {
+        movementState = startMovementState;
+        SetMovementAngle(startAngle);
     }
 
     public void SetMovementAngle(float angle)

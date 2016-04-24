@@ -8,7 +8,6 @@ public class MeshDistortionFix : MonoBehaviour
 	// Update is called once per frame
 	void LateUpdate ()
     {
-        // Fixes deformation bug
         meshRenderer.enabled = false;
         meshRenderer.enabled = true;
     }

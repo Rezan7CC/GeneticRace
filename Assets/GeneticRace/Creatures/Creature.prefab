@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 415992}
+  - 114: {fileID: 11433066}
   m_Layer: 0
   m_Name: Creature
   m_TagString: Untagged
@@ -132,8 +133,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f5a4137f18c2d14688addcb3c4be099, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  testPartPrefab: {fileID: 198006, guid: b3d2dcd2bf17fac409cfb1f1c9e86acd, type: 2}
   socketPrefab: {fileID: 191400, guid: 511f56562c838d740a23890a06fa8ccc, type: 2}
+--- !u!114 &11433066
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 101456}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76ec1c59223dca44a95d2098fc70e1af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startBodyPartCount: 5
+  maxBodyPartCount: 5
+  mutateNewPartChance: 0.5
+  bodyPartPrefab: {fileID: 198006, guid: b3d2dcd2bf17fac409cfb1f1c9e86acd, type: 2}
+  bodyBaseSockets: {fileID: 11420768}
 --- !u!114 &11436812
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -146,7 +162,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSize: 1
-  maxSize: 6
+  maxSize: 4
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
