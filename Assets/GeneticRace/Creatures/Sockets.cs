@@ -63,6 +63,7 @@ public class Sockets : MonoBehaviour
 
     public void SetSocketObject(SocketLocation location, GameObject bodyPart)
     {
+        Vector3 originalScale = bodyPart.transform.localScale;
         Socket socket = null;
         foreach(Socket tmpSocket in sockets)
         {
@@ -76,7 +77,8 @@ public class Sockets : MonoBehaviour
         }
 
         bodyPart.transform.parent = socket.socketMovement.transform;
-        Vector3 localPosition = new Vector3();
+        bodyPart.transform.localScale = originalScale;
+        Vector3 localPosition = Vector3.zero;
         localPosition.z = bodyPart.transform.localScale.z * 0.5f;
 
         bodyPart.transform.localPosition = localPosition;
